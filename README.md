@@ -1,252 +1,473 @@
-# ZeniPay Payment Portal
+# 🏦 ZeniPay - Secure International Payment Portal
 
-Secure international payments portal built with Node.js, Express, and MySQL (XAMPP/MariaDB). It supports customer registrations, payment creation, employee verification workflows, and audit logging.
+<div align="center">
 
-## Project Structure
+![Node.js](https://img.shields.io/badge/Node.js-20.x-green)
+![Express](https://img.shields.io/badge/Express-5.x-lightgrey)
+![React](https://img.shields.io/badge/React-18.x-blue)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-orange)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![CircleCI](https://img.shields.io/badge/CircleCI-Configured-success)
 
+**A secure, production-ready international payment portal with comprehensive security features, employee verification workflows, and SWIFT integration.**
+
+[Features](#-features) • [Quick Start](#-quick-start) • [API Documentation](#-api-documentation) • [Security](#-security-features) • [Testing](#-testing)
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Quick Start](#-quick-start)
+- [Installation](#-installation)
+- [API Documentation](#-api-documentation)
+- [Security Features](#-security-features)
+- [Project Structure](#-project-structure)
+- [Testing](#-testing)
+- [CI/CD Pipeline](#cicd-pipeline)
+- [Default Accounts](#-default-accounts)
+- [Troubleshooting](#-troubleshooting)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
+## 🎯 Overview
+
+ZeniPay is a secure international payment portal designed for banks and financial institutions. It enables customers to create international payments via SWIFT, while employees verify and process transactions through a dedicated portal.
+
+### Key Capabilities
+
+- ✅ **Customer Portal**: Registration, login, and payment creation
+- ✅ **Employee Portal**: Transaction verification and SWIFT submission
+- ✅ **Security**: Comprehensive protection against OWASP Top 10 vulnerabilities
+- ✅ **Audit Logging**: Complete security audit trails
+- ✅ **CI/CD**: Automated testing and code quality analysis
+
+---
+
+## ✨ Features
+
+### 🔐 Authentication & Authorization
+- JWT-based authentication with secure token management
+- Role-based access control (Customer/Employee)
+- Password hashing with bcrypt (12 salt rounds)
+- Strong password requirements enforcement
+
+### 💳 Payment Processing
+- International payment creation with SWIFT codes
+- Multi-currency support (USD, EUR, ZAR, etc.)
+- Transaction status tracking (pending → verified → completed)
+- Payment verification workflow for employees
+
+### 🛡️ Security Features
+- **Input Validation**: RegEx-based whitelisting for all inputs
+- **SQL Injection Protection**: Parameterized queries
+- **XSS Protection**: Multi-layer input sanitization
+- **CSRF Protection**: Token-based CSRF prevention
+- **Rate Limiting**: DDoS protection (3 tiers)
+- **Security Headers**: Helmet.js with comprehensive CSP
+- **SSL/TLS**: Secure data in transit
+- **Clickjacking Protection**: X-Frame-Options headers
+- **Session Security**: Secure token management
+
+### 📊 Additional Features
+- Comprehensive audit logging
+- Employee registration prevention (pre-registered only)
+- Automated test suite
+- CircleCI integration with SonarQube
+- Windows setup documentation
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- **Runtime**: Node.js 20.x
+- **Framework**: Express.js 5.x
+- **Database**: MySQL 8.0 / MariaDB
+- **Authentication**: JWT (jsonwebtoken)
+- **Security**: Helmet, CORS, express-rate-limit, csurf
+- **Password Hashing**: bcrypt
+
+### Frontend
+- **Framework**: React 18.x with TypeScript
+- **Routing**: React Router v6
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **HTTP Client**: Axios
+
+### DevOps
+- **CI/CD**: CircleCI
+- **Code Quality**: SonarQube
+- **Version Control**: Git/GitHub
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **MySQL/MariaDB** 8.0+ (XAMPP recommended for Windows)
+- **Git** ([Download](https://git-scm.com/))
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/wakason/Zenipay.git
+cd Zenipay
 ```
-src/
-├── config/          # Database configuration (pool, init, seed)
-├── middleware/      # Security (helmet, cors, rate limiting)
-├── routes/          # API routes (auth, payments)
-├── utils/           # Auth utilities (hashing, JWT, validation)
-└── server.js        # App entrypoint
-```
 
-## Quick Start (Windows)
+### 2. Install Dependencies
 
-1) Prerequisites
-- Node.js 18+
-- XAMPP (MySQL/MariaDB running on localhost:3306)
-
-2) Create `.env` in the project root
-```
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=payment_portal
-PORT=5000
-NODE_ENV=development
-JWT_SECRET=change-me
-```
-
-3) Install dependencies (auto database setup will run)
-```powershell
+```bash
 npm install
 ```
 
-4) Start the backend API (auto database setup runs before start)
-```powershell
-npm run dev
-```
-Health check: `http://localhost:5000/health`
+### 3. Configure Environment
 
-5) Default employee logins (after seeding)
-- Admin: `EMP001` / `Admin123!`
-- Manager: `EMP002` / `Manager123!`
+Create a `.env` file in the project root:
 
-If needed, seed or reseed employees at any time:
-```powershell
-npm run seed:employees
-```
-
-## Scripts
-- `npm run dev` — start backend with nodemon
-- `npm run server` — start backend once
-- `npm run setup:db` — create DB and tables (idempotent)
-- `npm run seed:employees` — upsert default EMP001/EMP002 with hashed passwords
-- `npm run build` — build frontend (if used)
-
-A secure international payment portal backend API built with Node.js, Express, and MySQL. This system handles customer registration, payment processing, and employee verification workflows for international bank transfers via SWIFT.
-
-## Features
-
-- 🔐 **Secure Authentication**: JWT-based authentication with password hashing and salting
-- 🛡️ **Security Hardening**: Protection against OWASP Top 10 vulnerabilities
-- 💳 **Payment Processing**: Customer payment creation and employee verification
-- 🏦 **SWIFT Integration**: Simulated SWIFT submission for international transfers
-- 📊 **Audit Logging**: Comprehensive security audit trails
-- 🚦 **Rate Limiting**: DDoS protection and abuse prevention
-- 🔒 **Input Validation**: RegEx-based input whitelisting and sanitization
-
-### Key Features
-- Secure auth (JWT + bcrypt)
-- Robust security middleware (Helmet, CORS, rate limiting, input validation)
-- Payments workflow with status transitions
-- Audit logs for critical actions
-
-## Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd payment-portal-backend
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Set up XAMPP**
-   - Start Apache and MySQL in XAMPP Control Panel
-   - Open phpMyAdmin at `http://localhost/phpmyadmin`
-   - Run the `database-setup.sql` script to create the database and tables
-
-4. **Configure environment variables**
-   - Copy `.env` file and update the configuration as needed
-   - Default settings work with XAMPP's default MySQL configuration
-
-5. **Start the server**
-   ```bash
-   # Development mode with auto-restart
-   npm run dev
-   
-   # Production mode
-   npm start
-   ```
-
-## API Overview
-
-### Authentication
-- `POST /api/auth/register` - Customer registration
-- `POST /api/auth/login` - User login (customer/employee)
-- `GET /api/auth/profile` - Get current user profile
-- `PUT /api/auth/change-password` - Change password
-- `POST /api/auth/logout` - Logout
-
-### Payments
-- `POST /api/payments/create` - Create new payment (customer)
-- `GET /api/payments/my-transactions` - Get customer's transactions
-- `GET /api/payments/pending` - Get pending transactions (employee)
-- `PUT /api/payments/verify/:id` - Verify transaction (employee)
-- `POST /api/payments/submit-to-swift/:id` - Submit to SWIFT (employee)
-- `GET /api/payments/:id` - Get transaction details
-- `GET /api/payments` - Get all transactions (employee)
-
-## Default Employee Accounts
-
-The system creates default employee accounts on startup:
-
-- **Admin User**: `EMP001` / `Admin123!`
-- **Bank Manager**: `EMP002` / `Manager123!`
-
-## Security Features
-
-### Password Security
-- Bcrypt hashing with 12 salt rounds
-- Strong password requirements (8+ chars, uppercase, lowercase, number, special char)
-
-### Input Validation
-- RegEx patterns for all input fields
-- SQL injection prevention with parameterized queries
-- XSS protection with input sanitization
-
-### Security Headers
-- Helmet.js for security headers
-- CORS configuration
-- Content Security Policy (CSP)
-- HSTS (HTTP Strict Transport Security)
-
-### Rate Limiting
-- General API: 100 requests per 15 minutes
-- Authentication: 5 attempts per 15 minutes
-- Payment creation: 3 attempts per minute
-
-### Audit Logging
-- All user actions logged with IP address and user agent
-- Transaction status changes tracked
-- SWIFT submissions recorded
-
-## Database Setup Options
-
-This project initializes the schema automatically in several places:
-- `postinstall`, `predev`, `preserver` all call `node setup-database.js`
-- Manual seeding via `npm run seed:employees` ensures EMP001/EMP002
-
-Manual setup via MySQL CLI (PowerShell):
-```powershell
-$env:Path = "C:\\xampp\\mysql\\bin;" + $env:Path
-cmd /c "mysql -u root < database-setup.sql"
-```
-If root has a password:
-```powershell
-cmd /c "mysql -u root -p < database-setup.sql"
-```
-
-Tables created:
-- `users (id, full_name, id_number, account_number, password_hash, role, is_active, created_at, updated_at)`
-- `transactions (id, customer_id, amount, currency, payee_account, swift_code, payee_name, status, employee_notes, created_at, updated_at)`
-- `audit_logs (id, user_id, action, details, ip_address, user_agent, created_at)`
-
-### Users Table
-- Customer and employee accounts
-- Password hashes (bcrypt)
-- Role-based access control
-
-### Transactions Table
-- Payment details (amount, currency, payee info)
-- SWIFT codes and account numbers
-- Status tracking (pending → verified → completed)
-
-### Audit Logs Table
-- Security event logging
-- User action tracking
-- IP address and user agent recording
-
-## Troubleshooting (Windows)
-
-- MySQL CLI not found: add to PATH for the session
-  - `$env:Path = "C:\\xampp\\mysql\\bin;" + $env:Path`
-- Access denied (ERROR 1045): verify `DB_USER`/`DB_PASSWORD`; import with `-p`
-- Port 5000 in use: change `PORT` in `.env` and restart `npm run dev`
-- Schema mismatch (unknown column `account_number` or `id_number`):
-  - Reset DB: `cmd /c "mysql -u root -e \"DROP DATABASE IF EXISTS payment_portal;\""`
-  - Re-import `database-setup.sql` or run `npm run setup:db`
-- Rate limiting during auth tests: 10 attempts per 15 minutes
-
-## Development
-
-### Project Structure
-```
-src/
-├── config/          # Database configuration
-├── middleware/      # Security and auth middleware
-├── models/          # Database models (future)
-├── routes/          # API route handlers
-├── controllers/     # Business logic (future)
-├── utils/           # Utility functions
-└── server.js        # Application entry point
-```
-
-### Environment Variables
 ```env
-# Database
+# Database Configuration
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=payment_portal
 
-# JWT
-JWT_SECRET=your-secret-key
-JWT_EXPIRES_IN=1h
-
-# Server
+# Server Configuration
 PORT=5000
 NODE_ENV=development
 
-# Security
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_EXPIRES_IN=1h
+
+# Security Configuration
 BCRYPT_SALT_ROUNDS=12
 RATE_LIMIT_WINDOW_MS=900000
 RATE_LIMIT_MAX_REQUESTS=100
+
+# SSL/TLS (Optional - for production)
+SSL_CERT_PATH=./certs/server.crt
+SSL_KEY_PATH=./certs/server.key
 ```
 
-## Testing
+### 4. Start MySQL
 
-Test the API endpoints using tools like Postman or curl:
+**Windows (XAMPP):**
+1. Open XAMPP Control Panel
+2. Start MySQL service
+
+**Linux/Mac:**
+```bash
+sudo systemctl start mysql
+# or
+brew services start mysql
+```
+
+### 5. Start the Server
 
 ```bash
-# Register a customer
+# Development mode (with auto-restart)
+npm run dev
+
+# Production mode
+npm start
+```
+
+The server will automatically:
+- ✅ Connect to the database
+- ✅ Create tables if they don't exist
+- ✅ Seed default employee accounts
+
+### 6. Verify Installation
+
+Visit: `http://localhost:5000/health`
+
+Expected response:
+```json
+{
+  "status": "OK",
+  "timestamp": "2025-01-06T...",
+  "environment": "development",
+  "version": "1.0.0"
+}
+```
+
+---
+
+## 📦 Installation
+
+### Detailed Setup Instructions
+
+<details>
+<summary><b>Windows Setup (XAMPP)</b></summary>
+
+See [WINDOWS-SETUP.md](./WINDOWS-SETUP.md) for detailed Windows installation instructions.
+
+</details>
+
+<details>
+<summary><b>Linux/Mac Setup</b></summary>
+
+```bash
+# Install MySQL
+sudo apt-get install mysql-server  # Ubuntu/Debian
+brew install mysql                 # macOS
+
+# Start MySQL
+sudo systemctl start mysql
+
+# Create database
+mysql -u root -p < database-setup.sql
+
+# Install Node.js dependencies
+npm install
+
+# Start server
+npm run dev
+```
+
+</details>
+
+### Generate SSL Certificates (Optional)
+
+For HTTPS in development:
+
+```bash
+npm run setup:ssl
+```
+
+This generates self-signed certificates in the `certs/` directory.
+
+---
+
+## 📚 API Documentation
+
+### Base URL
+```
+http://localhost:5000/api
+```
+
+### Authentication Endpoints
+
+#### Register Customer
+```http
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "John Doe",
+  "idNumber": "1234567890123",
+  "accountNumber": "CUST001",
+  "password": "SecurePass123!"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Registration successful",
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "id": "...",
+    "fullName": "John Doe",
+    "accountNumber": "CUST001",
+    "role": "customer"
+  }
+}
+```
+
+#### Login
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "accountNumber": "CUST001",
+  "password": "SecurePass123!"
+}
+```
+
+#### Get Profile
+```http
+GET /api/auth/profile
+Authorization: Bearer <token>
+```
+
+### Payment Endpoints
+
+#### Create Payment (Customer)
+```http
+POST /api/payments/create
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "amount": "1000.50",
+  "currency": "USD",
+  "payeeAccount": "PAYEE123",
+  "swiftCode": "SBZAZAJJ",
+  "payeeName": "Jane Smith"
+}
+```
+
+#### Get Pending Transactions (Employee)
+```http
+GET /api/payments/pending?page=1&limit=10
+Authorization: Bearer <employee_token>
+```
+
+#### Verify Transaction (Employee)
+```http
+PUT /api/payments/verify/:transactionId
+Authorization: Bearer <employee_token>
+Content-Type: application/json
+
+{
+  "verified": true,
+  "notes": "Account verified, SWIFT code valid"
+}
+```
+
+#### Submit to SWIFT (Employee)
+```http
+POST /api/payments/submit-to-swift/:transactionId
+Authorization: Bearer <employee_token>
+```
+
+### Complete API Reference
+
+See [API Documentation](./docs/API.md) for complete endpoint documentation.
+
+---
+
+## 🔒 Security Features
+
+### Password Security
+- ✅ Bcrypt hashing with 12 salt rounds (configurable)
+- ✅ Strong password requirements:
+  - Minimum 8 characters
+  - At least one uppercase letter
+  - At least one lowercase letter
+  - At least one number
+  - At least one special character (@$!%*?&)
+
+### Input Validation
+- ✅ RegEx patterns for all input fields:
+  - Account numbers: `/^[A-Z0-9]{6,20}$/`
+  - ID numbers: `/^[0-9]{13}$/`
+  - SWIFT codes: `/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/`
+  - Currency codes: `/^[A-Z]{3}$/`
+- ✅ SQL injection prevention via parameterized queries
+- ✅ XSS protection with multi-layer sanitization
+- ✅ Query parameter validation
+
+### Security Headers
+- ✅ **X-Frame-Options**: DENY (clickjacking protection)
+- ✅ **X-Content-Type-Options**: nosniff
+- ✅ **Content-Security-Policy**: Comprehensive CSP
+- ✅ **Strict-Transport-Security**: HSTS enabled
+- ✅ **Referrer-Policy**: strict-origin-when-cross-origin
+
+### Rate Limiting
+- ✅ **General API**: 100 requests per 15 minutes
+- ✅ **Authentication**: 10 requests per 15 minutes (production)
+- ✅ **Payment Creation**: 3 requests per minute
+
+### Attack Protection
+- ✅ **Session Jacking**: JWT tokens with expiration
+- ✅ **Clickjacking**: X-Frame-Options + CSP
+- ✅ **SQL Injection**: Parameterized queries + pattern detection
+- ✅ **XSS**: Input sanitization + CSP
+- ✅ **MITM**: SSL/TLS + HSTS
+- ✅ **DDoS**: Multi-tier rate limiting
+
+### Employee Registration Prevention
+- ✅ Employees cannot register through public API
+- ✅ Only pre-registered employees can access employee portal
+- ✅ Account number pattern validation (blocks EMP* accounts)
+
+See [SECURITY.md](./SECURITY.md) for comprehensive security documentation.
+
+---
+
+## 📁 Project Structure
+
+```
+zenipay/
+├── .circleci/              # CI/CD configuration
+│   └── config.yml          # CircleCI pipeline
+├── src/
+│   ├── config/             # Database configuration
+│   │   └── db.js           # Connection pool & initialization
+│   ├── middleware/         # Express middleware
+│   │   ├── auth.js         # Authentication & authorization
+│   │   └── security.js     # Security headers & validation
+│   ├── routes/             # API routes
+│   │   ├── auth.js         # Authentication routes
+│   │   └── payments.js     # Payment routes
+│   ├── utils/              # Utility functions
+│   │   ├── auth.js         # Password hashing, JWT, validation
+│   │   └── validation.ts   # Frontend validation patterns
+│   ├── pages/              # React components (frontend)
+│   ├── components/         # Reusable React components
+│   ├── contexts/           # React contexts (AuthContext)
+│   ├── services/           # API service layer
+│   └── server.js           # Application entry point
+├── scripts/
+│   └── generate-ssl-certs.js  # SSL certificate generator
+├── .env                    # Environment variables (not in repo)
+├── .gitignore             # Git ignore rules
+├── package.json           # Dependencies & scripts
+├── sonar-project.properties  # SonarQube configuration
+├── database-setup.sql    # Database schema
+├── test-website.js       # Automated test suite
+├── README.md             # This file
+├── SECURITY.md           # Security documentation
+├── TESTING-GUIDE.md      # Testing instructions
+└── CICD-SETUP.md         # CI/CD setup guide
+```
+
+---
+
+## 🧪 Testing
+
+### Automated Test Suite
+
+Run the comprehensive test suite:
+
+```bash
+npm run test:api
+```
+
+This tests:
+- ✅ Health check
+- ✅ Customer registration & login
+- ✅ Employee login
+- ✅ Payment creation
+- ✅ Transaction retrieval
+- ✅ Input validation
+- ✅ Security features
+- ✅ Employee registration prevention
+
+### Manual Testing
+
+See [TESTING-GUIDE.md](./TESTING-GUIDE.md) for detailed testing instructions.
+
+### Example API Calls
+
+```bash
+# Health check
+curl http://localhost:5000/health
+
+# Register customer
 curl -X POST http://localhost:5000/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{"fullName":"John Doe","idNumber":"1234567890123","accountNumber":"CUST001","password":"SecurePass123!"}'
@@ -255,46 +476,196 @@ curl -X POST http://localhost:5000/api/auth/register \
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"accountNumber":"CUST001","password":"SecurePass123!"}'
-
-# Create payment (use token from login)
-curl -X POST http://localhost:5000/api/payments/create \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{"amount":"1000","currency":"USD","payeeAccount":"PAYEE123","swiftCode":"SBZAZAJJ","payeeName":"Jane Smith"}'
 ```
 
-## Production Deployment
+---
 
-1. **SSL Configuration**
-   - Generate SSL certificates
-   - Update `SSL_CERT_PATH` and `SSL_KEY_PATH` in `.env`
-   - Set `NODE_ENV=production`
+## 🔄 CI/CD Pipeline
 
-2. **Database Security**
-   - Use strong database passwords
-   - Enable SSL for database connections
-   - Regular backups
+### CircleCI Integration
 
-3. **Server Security**
-   - Use reverse proxy (nginx)
-   - Enable firewall
-   - Regular security updates
+The project includes CircleCI configuration for automated builds and code quality analysis.
 
-## Contributing
+**Setup:**
+1. Connect repository to CircleCI
+2. Configure SonarCloud token
+3. Push code to trigger pipeline
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+See [CICD-SETUP.md](./CICD-SETUP.md) for detailed setup instructions.
 
-## License
+### SonarQube Analysis
 
-This project is licensed under the ISC License.
+- Code quality metrics
+- Security hotspot detection
+- Code smell identification
+- Coverage reporting
 
-## Support
+---
 
-For support and questions, please contact the development team.
-#   S e c u r e b a n k 
- 
- 
+## 👥 Default Accounts
+
+The system automatically creates default employee accounts:
+
+| Role | Account Number | Password | Description |
+|------|---------------|----------|-------------|
+| Admin | `EMP001` | `Admin123!` | Admin User |
+| Manager | `EMP002` | `Manager123!` | Bank Manager |
+
+**Note:** Employees cannot register through the public API. They must be pre-registered by administrators.
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+<details>
+<summary><b>MySQL Connection Error</b></summary>
+
+**Problem:** `ER_ACCESS_DENIED_ERROR` or `ECONNREFUSED`
+
+**Solutions:**
+1. Verify MySQL is running: `mysql --version`
+2. Check `.env` credentials match MySQL setup
+3. Test connection: `mysql -u root -p`
+4. Ensure database exists: `CREATE DATABASE payment_portal;`
+
+</details>
+
+<details>
+<summary><b>Port Already in Use</b></summary>
+
+**Problem:** `EADDRINUSE: address already in use :::5000`
+
+**Solutions:**
+1. Change port in `.env`: `PORT=5001`
+2. Or kill process using port 5000:
+   ```bash
+   # Windows
+   netstat -ano | findstr :5000
+   taskkill /PID <PID> /F
+   
+   # Linux/Mac
+   lsof -ti:5000 | xargs kill
+   ```
+
+</details>
+
+<details>
+<summary><b>Module Not Found</b></summary>
+
+**Problem:** `Cannot find module '...'`
+
+**Solution:**
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+</details>
+
+<details>
+<summary><b>Database Schema Mismatch</b></summary>
+
+**Problem:** `Unknown column 'accountNumber'` or similar errors
+
+**Solution:**
+```bash
+# Reset database
+mysql -u root -p -e "DROP DATABASE IF EXISTS payment_portal;"
+
+# Recreate schema
+mysql -u root -p < database-setup.sql
+
+# Or use automated setup
+npm run setup:db
+```
+
+</details>
+
+### Getting Help
+
+- 📖 Check [WINDOWS-SETUP.md](./WINDOWS-SETUP.md) for Windows-specific issues
+- 🔒 See [SECURITY.md](./SECURITY.md) for security-related questions
+- 🧪 Review [TESTING-GUIDE.md](./TESTING-GUIDE.md) for testing help
+- 🐛 Open an [Issue](https://github.com/wakason/Zenipay/issues) on GitHub
+
+---
+
+## 📝 Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start development server with nodemon |
+| `npm run server` | Start server once (no auto-restart) |
+| `npm run build` | Build React frontend for production |
+| `npm run test` | Run React tests |
+| `npm run test:api` | Run comprehensive API test suite |
+| `npm run setup:db` | Setup database tables |
+| `npm run setup:ssl` | Generate SSL certificates for development |
+| `npm run seed:employees` | Seed/update default employee accounts |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Make your changes**
+4. **Add tests** if applicable
+5. **Commit your changes**
+   ```bash
+   git commit -m "feat: Add amazing feature"
+   ```
+6. **Push to the branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+7. **Open a Pull Request**
+
+### Code Style
+
+- Follow existing code style
+- Add comments for complex logic
+- Update documentation as needed
+- Ensure all tests pass
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Express.js community
+- React team
+- OWASP security guidelines
+- All contributors and testers
+
+---
+
+## 📞 Support
+
+For support, questions, or issues:
+
+- 📧 Open an [Issue](https://github.com/wakason/Zenipay/issues)
+- 📖 Check the [Documentation](./docs/)
+- 🔒 Review [Security Documentation](./SECURITY.md)
+
+---
+
+<div align="center">
+
+**Made with ❤️ for secure international payments**
+
+[⬆ Back to Top](#-zenipay---secure-international-payment-portal)
+
+</div>
