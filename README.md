@@ -123,6 +123,12 @@ git clone https://github.com/ST10082749/ZeniPay.git
 cd ZeniPay
 ```
 
+Or using GitHub CLI:
+```bash
+gh repo clone ST10082749/ZeniPay
+cd ZeniPay
+```
+
 ### 2. Install Dependencies
 
 ```bash
