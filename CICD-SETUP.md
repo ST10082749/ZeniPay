@@ -25,7 +25,7 @@ The GitHub Actions workflow is automatically configured in `.github/workflows/ci
 2. **Create SonarCloud Project:**
    - Click "Create Project"
    - Select "From GitHub"
-   - Choose your repository: `wakason/Zenipay`
+   - Choose your repository: `ST10082749/ZeniPay`
    - Project key will be auto-generated (or use: `zenipay-payment-portal`)
 
 3. **Get SonarCloud Token:**

@@ -119,8 +119,8 @@ ZeniPay is a secure international payment portal designed for banks and financia
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/wakason/Zenipay.git
-cd Zenipay
+git clone https://github.com/ST10082749/ZeniPay.git
+cd ZeniPay
 ```
 
 ### 2. Install Dependencies
@@ -597,7 +597,7 @@ npm run setup:db
 - 📖 Check [WINDOWS-SETUP.md](./WINDOWS-SETUP.md) for Windows-specific issues
 - 🔒 See [SECURITY.md](./SECURITY.md) for security-related questions
 - 🧪 Review [TESTING-GUIDE.md](./TESTING-GUIDE.md) for testing help
-- 🐛 Open an [Issue](https://github.com/wakason/Zenipay/issues) on GitHub
+- 🐛 Open an [Issue](https://github.com/ST10082749/ZeniPay/issues) on GitHub
 
 ---
 
@@ -665,7 +665,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support, questions, or issues:
 
-- 📧 Open an [Issue](https://github.com/wakason/Zenipay/issues)
+- 📧 Open an [Issue](https://github.com/ST10082749/ZeniPay/issues)
 - 📖 Check the [Documentation](./docs/)
 - 🔒 Review [Security Documentation](./SECURITY.md)
 
